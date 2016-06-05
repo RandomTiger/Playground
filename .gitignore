@@ -5,4 +5,9 @@ UnityPlugin/Unity/Temp/UnityTempFile-398741cb267726447be2a086a7ea7dfd
 UnityPlugin/Unity/Temp/__Backupscenes/0.backup
 *.db
 *.opendb
+UnityPlugin/Unity/Temp/
+UnityPlugin/Unity/Unity.CSharp.Editor.csproj
+UnityPlugin/Unity/Unity.CSharp.csproj
+UnityPlugin/Unity/Unity.sln
+UnityPlugin/Unity/Test.apk
 UnityPlugin/Plugin/x64/
