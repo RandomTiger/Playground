@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{d6f1be47-5952-4660-b233-1e609c979568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Flock">
+      <UniqueIdentifier>{753218a1-3e84-437d-aaf7-3e458609131b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Flock\Ogre3D">
+      <UniqueIdentifier>{846e6e83-1c7f-4fe7-9db7-8fe96fb73e00}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\code\Plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\Flock\FlockEntity.cpp">
+      <Filter>Source Files\Flock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\Flock\Mathf.cpp">
+      <Filter>Source Files\Flock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\Flock\SteeringBehaviour.cpp">
+      <Filter>Source Files\Flock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\Flock\Ogre3D\Quaternion.cpp">
+      <Filter>Source Files\Flock\Ogre3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\Flock\Ogre3D\vector3.cpp">
+      <Filter>Source Files\Flock\Ogre3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\Flock\Flock.cpp">
+      <Filter>Source Files\Flock</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\code\Flock\FlockEntity.h">
+      <Filter>Source Files\Flock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\Flock\List.h">
+      <Filter>Source Files\Flock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\Flock\Mathf.h">
+      <Filter>Source Files\Flock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\Flock\SteeringBehaviour.h">
+      <Filter>Source Files\Flock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\Flock\Ogre3D\Quaternion.h">
+      <Filter>Source Files\Flock\Ogre3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\Flock\Ogre3D\vector3.h">
+      <Filter>Source Files\Flock\Ogre3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\Flock\Flock.h">
+      <Filter>Source Files\Flock</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
