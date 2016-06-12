@@ -9,4 +9,12 @@ extern "C"
 	{
 		return x * y;
 	}
+
+	void TestFloatArray(float* pArray, int pSize)
+	{
+		for (int i = 0; i < pSize; i++)
+		{
+			pArray[i] = 1.1f;
+		}
+	}
 }

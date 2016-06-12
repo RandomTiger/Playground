@@ -10,11 +10,11 @@ extern "C"
 		return x * y;
 	}
 
-	__declspec(dllexport) int TestArrayOfInts(float* pArray, int pSize)
+	__declspec(dllexport) void TestFloatArray(float* pArray, int pSize)
 	{
 		for (int i = 0; i < pSize; i++)
 		{
-
+			pArray[i] = 1.1f;
 		}
 	}
 }

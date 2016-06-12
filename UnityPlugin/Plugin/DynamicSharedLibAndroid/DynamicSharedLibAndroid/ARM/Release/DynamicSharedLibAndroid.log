@@ -1,0 +1,7 @@
+﻿  ANDROID_HOME=C:\Program Files (x86)\Android\android-sdk
+  ANT_HOME=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Apps\apache-ant-1.9.3\
+  JAVA_HOME=
+  NDK_ROOT=C:\ProgramData\Microsoft\AndroidNDK64\android-ndk-r10e\
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  DynamicSharedLibAndroid.cpp
+  DynamicSharedLibAndroid.vcxproj -> ..\..\..\Unity\Assets\Plugins\Android\libnative.so
