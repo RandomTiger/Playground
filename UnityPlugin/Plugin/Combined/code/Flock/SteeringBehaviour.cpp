@@ -287,7 +287,7 @@ Vector3 SteeringBehaviour::Flee(FlockEntity entity, Vector3 TargetPos)
         }
         */
 
-    Vector3 DesiredVelocity = Vector3::Normalize(entity.Position - TargetPos) * entity.m_MaxSpeed;
+    Vector3 DesiredVelocity = Vector3::Normalize(entity.Position() - TargetPos) * entity.m_MaxSpeed;
     return (DesiredVelocity - entity.m_Velocity);
 }
 
@@ -347,7 +347,7 @@ Vector3 SteeringBehaviour::Alignment(const FlockEntity& entity, List<FlockEntity
         //include any evade target ***
         if (nearby.Values[a].Tagged)
         {
-            AverageHeading += nearby.Values[a].Heading;
+            AverageHeading += nearby.Values[a].Heading();
             ++NeighborCount;
         }
     }
@@ -357,7 +357,7 @@ Vector3 SteeringBehaviour::Alignment(const FlockEntity& entity, List<FlockEntity
     if (NeighborCount > 0)
     {
         AverageHeading /= (float)NeighborCount;
-        AverageHeading -= entity.Heading;
+        AverageHeading -= entity.Heading();
     }
 
     return AverageHeading;
@@ -402,7 +402,7 @@ Vector3 SteeringBehaviour::Cohesion(const FlockEntity& entity, List<FlockEntity>
 
 Vector3 SteeringBehaviour::Seek(const FlockEntity& entity, Vector3 TargetPos)
 {
-    Vector3 DesiredVelocity = Vector3::Normalize(TargetPos - entity.Position) * entity.m_MaxSpeed;
+    Vector3 DesiredVelocity = Vector3::Normalize(TargetPos - entity.Position()) * entity.m_MaxSpeed;
     return (DesiredVelocity - entity.m_Velocity);
 }
    

@@ -4,27 +4,48 @@ using System;
 
 public class Plugin : MonoBehaviour
 {
+
 #if UNITY_ANDROID && !UNITY_EDITOR
-	[DllImport("libnative")]
-
-	private static extern float add(float x, float y);
-
-	[DllImport("libnative")]
-	private static extern float mult(float x, float y);
-
     [DllImport("libnative")]
-    public static extern bool TestFloatArray([In, Out] float[] floatArray, int size);
 #else
     [DllImport("native")]
-
-	private static extern float add(float x, float y);
-
-	[DllImport("native")]
-	private static extern float mult(float x, float y);
-
-    [DllImport("native")]
-    public static extern bool TestFloatArray([In, Out] float[] floatArray, int size);
 #endif
+    private static extern float add(float x, float y);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    [DllImport("libnative")]
+#else
+    [DllImport("native")]
+#endif
+    private static extern float mult(float x, float y);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    [DllImport("libnative")]
+#else
+    [DllImport("native")]
+#endif
+    private static extern float sub(float x, float y);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    [DllImport("libnative")]
+#else
+    [DllImport("native")]
+#endif
+    public static extern bool TestFloatArray([In, Out] float[] floatArray, int size);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    [DllImport("libnative")]
+#else
+    [DllImport("native")]
+#endif
+    public static extern void ProcessFlock([Out] float[] floatArray, int size, float delta);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    [DllImport("libnative")]
+#else
+    [DllImport("native")]
+#endif
+    public static extern void FlockSetup([In, Out] float[] floatArray, int size);
 
     void Start()
 	{
@@ -34,6 +55,7 @@ public class Plugin : MonoBehaviour
         // And prints 5 to the console
         Debug.Log(add(1,1));
 		Debug.Log(mult(2,4));
+		Debug.Log(sub(3,2));
 
         float[] data = new float[100 * 6];
 
@@ -52,5 +74,15 @@ public class Plugin : MonoBehaviour
         {
             Debug.Log(data[i].ToString());
         }
+    }
+
+    public static void FlockSetup(float[] array)
+    {
+        FlockSetup(array, array.Length);
+    }
+
+    public static void FlockProcess(float [] array)
+    {
+        ProcessFlock(array, array.Length, Time.deltaTime);
     }
 }

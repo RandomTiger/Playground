@@ -36,17 +36,17 @@ void FlockEntity::UpdateInternal(List<FlockEntity> nearby, Vector3 target)
 
     Vector3::ClampMagnitude(m_Velocity, m_MaxSpeed);
 
-    RotateHeadingToFacePosition(Position + m_Velocity);
+    RotateHeadingToFacePosition(Position() + m_Velocity);
 
-    transform.position += (m_Velocity.magnitude() * Heading * Time::deltaTime);
+    transform.position += (m_Velocity.magnitude() * Heading() * Time::deltaTime);
 }
 
 bool FlockEntity::RotateHeadingToFacePosition(Vector3 target)
 {
-    Vector3 toTarget = Vector3::Normalize(target - Position);
+    Vector3 toTarget = Vector3::Normalize(target - Position());
 
     //first determine the angle between the heading vector and the target
-    float angle = (float) acos(Vector3::Dot(Heading, toTarget));
+    float angle = (float) acos(Vector3::Dot(Heading(), toTarget));
 
     //return true if the player is facing the target
     if (angle < 0.00001)
@@ -60,7 +60,7 @@ bool FlockEntity::RotateHeadingToFacePosition(Vector3 target)
         angle = m_MaxTurnRate;
     }
 
-    Vector3 newHeading = Vector3::RotateTowards(Heading, toTarget, angle * Mathf::Deg2Rad * Time::deltaTime);
+    Vector3 newHeading = Vector3::RotateTowards(Heading(), toTarget, angle * Mathf::Deg2Rad * Time::deltaTime);
     LookAt(transform.position + newHeading);
     return false;
 }

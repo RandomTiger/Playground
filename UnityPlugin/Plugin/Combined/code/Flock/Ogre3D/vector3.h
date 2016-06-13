@@ -32,6 +32,8 @@ THE SOFTWARE.
 #include <math.h>
 
 typedef float Real;
+
+class Quaternion;
 /*
 #include "OgrePrerequisites.h"
 #include "OgreVector2.h"
@@ -848,7 +850,7 @@ void assert(bool state);
 			return result;
 		}
 
-		static Vector3 RotateTowards(Vector3 from, Vector3 to, float maxRadiansDelta)
+		static Vector3 RotateTowards(const Vector3& from, const Vector3& to, float maxRadiansDelta)
 		{
 			/*
 			float num = Quaternion.Angle(from, to);
@@ -858,9 +860,10 @@ void assert(bool state);
 			}
 			float t = fmin(1.0f, maxRadiansDelta / num);
 			return Quaternion::UnclampedSlerp(from, to, t);*/
-			return Vector3::zero;
+			return to;
 		}
 
+		Vector3 operator *(const Quaternion& quat) const;
 
 		/*
         // special points

@@ -36,8 +36,21 @@ public:
 
 	bool Tagged;
 
-	Vector3 Position;
-	Vector3 Heading;
+	// todo tie me to Transform
+	void Position(Vector3 set)
+	{
+		transform.position = set;
+	}
+
+	inline const Vector3 Position() const
+	{
+		return transform.position;
+	}
+
+	inline const Vector3 Heading() const
+	{
+		return Vector3::forward * transform.rotation;
+	}
 
 	SteeringBehaviour m_Steering;
 

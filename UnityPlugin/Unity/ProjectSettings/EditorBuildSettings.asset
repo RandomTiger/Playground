@@ -6,4 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Test.unity
+    path: Assets/Scenes/Chapter3_Flock.unity
+  - enabled: 1
+    path: Assets/Scenes/Test.unity
