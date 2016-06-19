@@ -105,3 +105,14 @@ RenderingPlugin/RenderingPlugin/VisualStudio2015/Win32/Debug/glew.obj
 RenderingPlugin/RenderingPlugin/VisualStudio2015/Win32/Debug/vc140.idb
 RenderingPlugin/RenderingPlugin/VisualStudio2015/Win32/Debug/vc140.pdb
 RenderingPlugin/RenderingPlugin/VisualStudio2015/x64/Debug/
+RenderingPlugin/UnityProject/Test.apk
+RenderingPlugin/UnityProject/UnityProject.CSharp.Editor.csproj
+RenderingPlugin/UnityProject/UnityProject.CSharp.csproj
+RenderingPlugin/UnityProject/UnityProject.sln
+RenderingPlugin/RenderingPlugin/Android/libs/
+RenderingPlugin/RenderingPlugin/Android/obj/local/armeabi-v7a/libRenderingPlugin.so
+RenderingPlugin/RenderingPlugin/Android/obj/local/armeabi-v7a/objs/RenderingPlugin/__/__/__/RenderingPlugin/RenderingPlugin.o
+RenderingPlugin/RenderingPlugin/Android/obj/local/armeabi-v7a/objs/RenderingPlugin/__/__/__/RenderingPlugin/RenderingPlugin.o.d
+RenderingPlugin/RenderingPlugin/Android/obj/local/x86/libRenderingPlugin.so
+RenderingPlugin/RenderingPlugin/Android/obj/local/x86/objs/RenderingPlugin/__/__/__/RenderingPlugin/RenderingPlugin.o
+RenderingPlugin/RenderingPlugin/Android/obj/local/x86/objs/RenderingPlugin/__/__/__/RenderingPlugin/RenderingPlugin.o.d
