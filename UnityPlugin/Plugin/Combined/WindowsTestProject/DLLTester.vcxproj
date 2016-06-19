@@ -142,9 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\code\Flock\Flock.h" />
     <ClInclude Include="..\code\Flock\FlockEntity.h" />
     <ClInclude Include="..\code\Flock\List.h" />
