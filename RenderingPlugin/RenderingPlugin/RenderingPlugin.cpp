@@ -46,7 +46,7 @@
 static void DebugLog (const char* str)
 {
 	#if UNITY_WIN
-	OutputDebugStringA (str);
+//	OutputDebugStringA (str);
 	#else
 	printf ("%s", str);
 	#endif
