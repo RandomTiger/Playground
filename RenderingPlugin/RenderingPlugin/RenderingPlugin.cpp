@@ -41,6 +41,11 @@
 // --------------------------------------------------------------------------
 // Helper utilities
 
+struct MyVertex;
+void RenderScene(const float* worldMatrix, float* projectionMatrix, const MyVertex* verts);
+
+void InstancingSetup();
+void InstancingRender();
 
 // Prints a string
 static void DebugLog (const char* str)
@@ -1054,35 +1059,10 @@ static void DoRendering (const float* worldMatrix, const float* identityMatrix, 
 	{
 		assert(glGetError() == GL_NO_ERROR); // Make sure no OpenGL error happen before starting rendering
 
-		// Tweak the projection matrix a bit to make it match what identity projection would do in D3D case.
-		projectionMatrix[10] = 2.0f;
-		projectionMatrix[14] = -1.0f;
+		RenderScene(worldMatrix, projectionMatrix, verts);
 
-		glUseProgram(g_Program);
-		glUniformMatrix4fv(g_WorldMatrixUniformIndex, 1, GL_FALSE, worldMatrix);
-		glUniformMatrix4fv(g_ProjMatrixUniformIndex, 1, GL_FALSE, projectionMatrix);
 
-#if SUPPORT_OPENGL_CORE
-		if (s_DeviceType == kUnityGfxRendererOpenGLCore)
-		{
-			glGenVertexArrays(1, &g_VertexArray);
-			glBindVertexArray(g_VertexArray);
-		}
-#endif
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, g_ArrayBuffer);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(MyVertex) * 3, &verts[0].x);
-
-		glEnableVertexAttribArray(ATTRIB_POSITION);
-		glVertexAttribPointer(ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(MyVertex), BUFFER_OFFSET(0));
-
-		glEnableVertexAttribArray(ATTRIB_COLOR);
-		glVertexAttribPointer(ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(MyVertex), BUFFER_OFFSET(sizeof(float) * 3));
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		// update native texture from code
+		/* update native texture from code
 		if (g_TexturePointer)
 		{
 			GLuint gltex = (GLuint)(size_t)(g_TexturePointer);
@@ -1100,7 +1080,7 @@ static void DoRendering (const float* worldMatrix, const float* identityMatrix, 
 			FillTextureFromCode(g_TexWidth, g_TexHeight, g_TexHeight*4, data);
 			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, g_TexWidth, g_TexHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
 			delete[] data;
-		}
+		}*/
 
 #if SUPPORT_OPENGL_CORE
 		if (s_DeviceType == kUnityGfxRendererOpenGLCore)
@@ -1112,4 +1092,151 @@ static void DoRendering (const float* worldMatrix, const float* identityMatrix, 
 		assert(glGetError() == GL_NO_ERROR);
 	}
 	#endif
+}
+
+bool setup = false;
+
+void RenderScene(const float* worldMatrix, float* projectionMatrix, const MyVertex* verts)
+{
+	if (setup == false)
+	{
+		InstancingSetup();
+		assert(glGetError() == GL_NO_ERROR);
+
+		setup = true;
+	}
+	/*
+
+	// Tweak the projection matrix a bit to make it match what identity projection would do in D3D case.
+	projectionMatrix[10] = 2.0f;
+	projectionMatrix[14] = -1.0f;
+
+	glUseProgram(g_Program);
+	glUniformMatrix4fv(g_WorldMatrixUniformIndex, 1, GL_FALSE, worldMatrix);
+	glUniformMatrix4fv(g_ProjMatrixUniformIndex, 1, GL_FALSE, projectionMatrix);
+
+#if SUPPORT_OPENGL_CORE
+	if (s_DeviceType == kUnityGfxRendererOpenGLCore)
+	{
+		glGenVertexArrays(1, &g_VertexArray);
+		glBindVertexArray(g_VertexArray);
+	}
+#endif
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, g_ArrayBuffer);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(MyVertex) * 3, &verts[0].x);
+
+	glEnableVertexAttribArray(ATTRIB_POSITION);
+	glVertexAttribPointer(ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(MyVertex), BUFFER_OFFSET(0));
+
+	glEnableVertexAttribArray(ATTRIB_COLOR);
+	glVertexAttribPointer(ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(MyVertex), BUFFER_OFFSET(sizeof(float) * 3));
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	*/
+	InstancingRender();
+}
+
+// GL includes
+#include "Shader.h"
+
+// GLM Mathemtics
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+const char* vertShader = "\
+layout (location = 0) in vec2 position;\n\
+layout (location = 1) in vec3 color;\n\
+layout (location = 2) in vec2 offset;\n\
+\n\
+out vec3 fColor;\n\
+\n\
+void main()\n\
+{\n\
+gl_Position = vec4(position + offset, 0.0f, 1.0f);\n\
+fColor = color;\n\
+}";
+
+const char* pixelShader = "\
+in vec3 fColor;\n\
+out vec4 color;\n\
+\n\
+void main()\n\
+{\n\
+	color = vec4(fColor, 1.0f);\n\
+}";
+
+GLuint quadVAO;
+Shader shader;
+
+//http://learnopengl.com/#!Advanced-OpenGL/Instancing
+void InstancingSetup()
+{
+	shader.Setup(vertShader, pixelShader);
+
+	// Generate a list of 100 quad locations/translation-vectors
+	glm::vec2 translations[100];
+	int index = 0;
+	GLfloat offset = 0.1f;
+	for (GLint y = -10; y < 10; y += 2)
+	{
+		for (GLint x = -10; x < 10; x += 2)
+		{
+			glm::vec2 translation;
+			translation.x = (GLfloat)x / 10.0f + offset;
+			translation.y = (GLfloat)y / 10.0f + offset;
+			translations[index++] = translation;
+		}
+	}
+
+	// Store instance data in an array buffer
+	GLuint instanceVBO;
+	glGenBuffers(1, &instanceVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * 100, &translations[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// Generate quad VAO
+	GLfloat quadVertices[] = {
+		// Positions   // Colors
+		-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+		0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
+		-0.05f, -0.05f,  0.0f, 0.0f, 1.0f,
+
+		-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+		0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
+		0.05f,  0.05f,  0.0f, 1.0f, 1.0f
+	};
+	GLuint quadVBO;
+	glGenVertexArrays(1, &quadVAO);
+	glGenBuffers(1, &quadVBO);
+	glBindVertexArray(quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
+	// Also set instance data
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glVertexAttribDivisor(2, 1); // Tell OpenGL this is an instanced vertex attribute.
+	glBindVertexArray(0);
+}
+
+void InstancingRender()
+{
+	// Draw 100 instanced quads
+	shader.Use();
+	assert(glGetError() == GL_NO_ERROR);
+	glBindVertexArray(quadVAO);
+	assert(glGetError() == GL_NO_ERROR);
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100); // 100 triangles of 6 vertices each
+	assert(glGetError() == GL_NO_ERROR);
+	glBindVertexArray(0);
+	assert(glGetError() == GL_NO_ERROR);
 }

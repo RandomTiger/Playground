@@ -100,4 +100,9 @@ public class UseRenderingPlugin : MonoBehaviour
 			GL.IssuePluginEvent(GetRenderEventFunc(), 1);
 		}
 	}
+
+    public static void CameraPostRender()
+    {
+        GL.IssuePluginEvent(GetRenderEventFunc(), 1);
+    }
 }
