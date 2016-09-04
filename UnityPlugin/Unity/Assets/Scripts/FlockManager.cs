@@ -63,11 +63,13 @@ public class FlockManager : MonoBehaviour
 
     void Update()
     {
-        UpdateLocal();
-        UpdatePlugin();
+        long local = UpdateLocal();
+        long plugin = UpdatePlugin();
+
+        Debug.Log("C++ to C# " + (local / (float)plugin));
     }
 
-    void UpdateLocal()
+    long UpdateLocal()
     { 
         List<FlockEntity> nearbyEntities = new List<FlockEntity>();
         if(SpatialPartition)
@@ -99,9 +101,10 @@ public class FlockManager : MonoBehaviour
         stopwatch.Stop();
 
         Debug.Log("Flock C#  " + stopwatch.ElapsedMilliseconds + "ms " + stopwatch.ElapsedTicks + " ticks");
+        return stopwatch.ElapsedTicks;
     }
 
-    void UpdatePlugin()
+    long UpdatePlugin()
     {
         System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
@@ -118,6 +121,7 @@ public class FlockManager : MonoBehaviour
         stopwatch.Stop();
 
         Debug.Log("Flock C++ " + stopwatch.ElapsedMilliseconds + "ms " + stopwatch.ElapsedTicks + " ticks");
+        return stopwatch.ElapsedTicks;
     }
 
     void OnDrawGizmos()
