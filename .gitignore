@@ -105,3 +105,9 @@ RenderingPlugin/RenderingPlugin/VisualStudio2015/Win32/Debug/glew.obj
 RenderingPlugin/RenderingPlugin/VisualStudio2015/Win32/Debug/vc140.idb
 RenderingPlugin/RenderingPlugin/VisualStudio2015/Win32/Debug/vc140.pdb
 RenderingPlugin/RenderingPlugin/VisualStudio2015/x64/Debug/
+Daydream/Daydream/GvrIgnoreManifestMergeCheck.txt
+Daydream/Daydream/Daydream.sln
+Daydream/Daydream/Daydream.CSharp.csproj
+Daydream/Daydream/Daydream.CSharp.Editor.csproj
+Daydream/Daydream/Library/
+Daydream/Daydream/Temp/
